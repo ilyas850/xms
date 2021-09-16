@@ -34,6 +34,7 @@ class PesertaController extends Controller
 
   public function ambil_tes()
   {
+
     $tes = Auth::user()->username;
 
     $cek = Peserta::where('iduser', $tes)->get();
@@ -43,15 +44,28 @@ class PesertaController extends Controller
 
     $idc = $key->id_tingkat;
     $idskl = $key->id_sekolah;
+    $idsp = $key->id_peserta;
+
+    $datates = Pesertatest_record::join('tipe_test', 'testsekolah_record.id_tipetest', '=', 'tipe_test.id_tipetest')
+                            ->join('tingkat', 'tipe_test.id_tingkat', '=', 'tingkat.id_tingkat')
+                            ->where('testsekolah_record.id_sekolah', $idskl)
+                            ->where('testsekolah_record.status', 'ACTIVE')
+                            ->select('tipe_test.id_tipetest','tipe_test.tipe_test', 'tingkat.nama_tingkat', 'tipe_test.setup_timer', 'tipe_test.menit')
+                            ->get();
 
     $list = Pesertatest_record::join('tipe_test', 'testsekolah_record.id_tipetest', '=', 'tipe_test.id_tipetest')
                             ->join('tingkat', 'tipe_test.id_tingkat', '=', 'tingkat.id_tingkat')
-                            ->leftjoin('peserta_recordtest', 'testsekolah_record.id_tipetest', '=', 'peserta_recordtest.id_tipetest')
+                            ->join('peserta_recordtest', 'testsekolah_record.id_tipetest', '=', 'peserta_recordtest.id_tipetest')
+                            ->where('peserta_recordtest.id_peserta', $idsp)
                             ->where('testsekolah_record.id_sekolah', $idskl)
-                            ->select('peserta_recordtest.status','tipe_test.id_tipetest','tipe_test.tipe_test', 'tingkat.nama_tingkat', 'tipe_test.setup_timer', 'tipe_test.menit')
+                            ->where('testsekolah_record.status', 'ACTIVE')
+                            ->select('peserta_recordtest.id_peserta','peserta_recordtest.status','tipe_test.id_tipetest','tipe_test.tipe_test', 'tingkat.nama_tingkat', 'tipe_test.setup_timer', 'tipe_test.menit')
                             ->get();
 
-    return view ('peserta/tes/ambil_tes', compact('list'));
+    $cekl = count($list);
+
+
+    return view ('peserta/tes/ambil_tes', compact('list','idsp','datates','cekl'));
   }
 
   public function ambil_tes_1()
@@ -85,67 +99,129 @@ class PesertaController extends Controller
 
   public function mulai_tes($id)
   {
+    $tes = Auth::user()->username;
+
+    $cek = Peserta::where('iduser', $tes)->get();
+    foreach ($cek as $key) {
+      // code...
+    }
+
+    $idc = $key->id_tingkat;
+    $idskl = $key->id_sekolah;
+    $idpeserta = $key->id_peserta;
+
+    $cektes =  Peserta_recordtest::where('id_peserta', $idpeserta)
+                                  ->where('id_tipetest', $id)
+                                  ->get();
+    foreach ($cektes as $keyck) {
+      // code...
+    }
+    $jmlts = count($cektes);
+
     $ceksoal = Soal::where('id_tipetest', $id)
                   ->where('status', 'ACTIVE')
                   ->get();
-    if (count($ceksoal) > 0) {
-      $tes = Auth::user()->username;
 
-      $cek = Peserta::where('iduser', $tes)->get();
-      foreach ($cek as $key) {
-        // code...
-      }
-
-      $idc = $key->id_tingkat;
-      $idskl = $key->id_sekolah;
-      $idpeserta = $key->id_peserta;
+    if ($jmlts == 0) {
+      if (count($ceksoal) > 0) {
 
 
+        $tipe = Tipe_test::where('id_tipetest', $id)->get();
 
-      $tipe = Tipe_test::where('id_tipetest', $id)->get();
+        foreach ($tipe as $keyt) {
+          // code...
+        }
 
-      foreach ($tipe as $keyt) {
-        // code...
-      }
+        $tes = $keyt->tipe_test;
+        $time = $keyt->menit;
+        $idtes = $keyt->id_tipetest;
+        $ket = $keyt->ket;
 
-      $tes = $keyt->tipe_test;
-      $time = $keyt->menit;
-      $idtes = $keyt->id_tipetest;
+        $soal = Soal::where('id_tipetest', $id)
+                    ->where('status', 'ACTIVE')
+                    ->get();
 
-      $soal = Soal::where('id_tipetest', $id)
-                  ->where('status', 'ACTIVE')
-                  ->get();
+        $jwban = Jawaban::where('status', 'ACTIVE')->get();
+        foreach ($jwban as $jawab) {
+          // code...
+        }
 
-      $jwban = Jawaban::where('status', 'ACTIVE')->get();
-      foreach ($jwban as $jawab) {
-        // code...
-      }
+        $cekrecord = Peserta_recordtest::where('id_peserta', $idpeserta)
+                                      ->where('id_tipetest', $id)
+                                      ->get();
 
-      $cekrecord = Peserta_recordtest::where('id_peserta', $idpeserta)
-                                    ->where('id_tipetest', $id)
-                                    ->get();
+        if (count($cekrecord) > 0) {
 
-      if (count($cekrecord) > 0) {
+          return view ('peserta/tes/mulai_tes', compact('ket','idtes','soal', 'tes', 'jawab', 'jwban', 'idpeserta', 'time'));
+        }else {
 
-        return view ('peserta/tes/mulai_tes', compact('idtes','soal', 'tes', 'jawab', 'jwban', 'idpeserta', 'time'));
+          $ts = new Peserta_recordtest;
+          $ts->id_peserta = $idpeserta;
+          $ts->id_tipetest = $idtes;
+          $ts->status = 'Onprogress';
+          $ts->created_by = Auth::user()->name;
+          $ts->save();
+
+          return view ('peserta/tes/mulai_tes', compact('idtes','soal', 'tes', 'jawab', 'jwban', 'idpeserta', 'time'));
+        }
       }else {
 
-        $ts = new Peserta_recordtest;
-        $ts->id_peserta = $idpeserta;
-        $ts->id_tipetest = $idtes;
-        $ts->status = 'Onprogress';
-        $ts->created_by = Auth::user()->name;
-        $ts->save();
-
-        return view ('peserta/tes/mulai_tes', compact('idtes','soal', 'tes', 'jawab', 'jwban', 'idpeserta', 'time'));
+        Session::flash('hapus', 'soal belum ada');
+        return redirect('ambil_tes');
       }
-    }else {
+    }elseif ($jmlts > 0) {
+      if ($keyck->status == 'Selesai') {
 
-      Session::flash('hapus', 'soal belum ada');
-      return redirect('ambil_tes');
+        Session::flash('hapus', 'anda telah selsai mengerjakan tes ini');
+        return redirect('ambil_tes');
+      }else {
+        if (count($ceksoal) > 0) {
+
+          $tipe = Tipe_test::where('id_tipetest', $id)->get();
+
+          foreach ($tipe as $keyt) {
+            // code...
+          }
+
+          $tes = $keyt->tipe_test;
+          $time = $keyt->menit;
+          $idtes = $keyt->id_tipetest;
+          $ket = $keyt->ket;
+
+          $soal = Soal::where('id_tipetest', $id)
+                      ->where('status', 'ACTIVE')
+                      ->get();
+
+          $jwban = Jawaban::where('status', 'ACTIVE')->get();
+          foreach ($jwban as $jawab) {
+            // code...
+          }
+
+          $cekrecord = Peserta_recordtest::where('id_peserta', $idpeserta)
+                                        ->where('id_tipetest', $id)
+                                        ->get();
+
+          if (count($cekrecord) > 0) {
+
+            return view ('peserta/tes/mulai_tes', compact('ket','idtes','soal', 'tes', 'jawab', 'jwban', 'idpeserta', 'time'));
+          }else {
+
+            $ts = new Peserta_recordtest;
+            $ts->id_peserta = $idpeserta;
+            $ts->id_tipetest = $idtes;
+            $ts->status = 'Onprogress';
+            $ts->created_by = Auth::user()->name;
+            $ts->save();
+
+            return view ('peserta/tes/mulai_tes', compact('idtes','soal', 'tes', 'jawab', 'jwban', 'idpeserta', 'time'));
+          }
+        }else {
+
+          Session::flash('hapus', 'soal belum ada');
+          return redirect('ambil_tes');
+        }
+      }
     }
-
-
   }
 
   public function simpan_jawaban(Request $request)
@@ -153,44 +229,51 @@ class PesertaController extends Controller
     $idpeserta = $request->id_peserta;
     $idnomor = $request->id_nomormaster;
     $idtes = $request->id_tipetest;
-    $idjawab = $request->id_jawaban;
-    $jml_jawab = count($idjawab);
+    $idjawab = array_filter($request->id_jawaban);
 
-    $fruits = collect($idjawab);
-    $keys = $fruits->keys();
+    if ($idjawab == null) {
+      Session::flash('hapus', 'Mohon untuk mengerjakan soal');
+      return redirect('mulai_tes/'.$idtes);
+    }else {
+      $jml_jawab = count($idjawab);
 
-    for ($i=0; $i < $jml_jawab; $i++) {
+      $fruits = collect($idjawab);
+      $keys = $fruits->keys();
 
-      $pay = $keys[$i];
+      for ($i=0; $i < $jml_jawab; $i++) {
 
-      $jwb = $idjawab[$pay];
+        $pay = $keys[$i];
 
-      $idr = explode(',',$jwb, 4 );
+        $jwb = $idjawab[$pay];
 
-      $jawaban_id = $idr[0];
-      $soal_id = $idr[1];
-      $opsi = $idr[2];
-      $bs = $idr[3];
+        $idr = explode(',',$jwb, 4 );
 
-      $sl = new Jawaban_peserta;
-      $sl->id_peserta    = $idpeserta;
-      $sl->id_nomormaster   = $idnomor;
-      $sl->id_soal          = $soal_id;
-      $sl->id_tipetest  = $idtes;
-      $sl->id_jawaban   = $jawaban_id;
-      $sl->jawaban_peserta  = $opsi;
-      $sl->ket_bs = $bs;
-      $sl->created_by = Auth::user()->name;
-      $sl->save();
+        $jawaban_id = $idr[0];
+        $soal_id = $idr[1];
+        $opsi = $idr[2];
+        $bs = $idr[3];
 
+        $sl = new Jawaban_peserta;
+        $sl->id_peserta    = $idpeserta;
+        $sl->id_nomormaster   = $idnomor;
+        $sl->id_soal          = $soal_id;
+        $sl->id_tipetest  = $idtes;
+        $sl->id_jawaban   = $jawaban_id;
+        $sl->jawaban_peserta  = $opsi;
+        $sl->ket_bs = $bs;
+        $sl->created_by = Auth::user()->name;
+        $sl->save();
+
+      }
+
+      $upd = Peserta_recordtest::where('id_peserta', $idpeserta)
+                              ->where('id_tipetest', $idtes)
+                              ->update(['status'=>'Selesai']);
+
+      Session::flash('sukses', 'Jawaban Berhasil Disimpan!');
+      return redirect('ambil_tes');
     }
 
-    $upd = Peserta_recordtest::where('id_peserta', $idpeserta)
-                            ->where('id_tipetest', $idtes)
-                            ->update(['status'=>'Selesai']);
-
-    Session::flash('sukses', 'Jawaban Berhasil Disimpan!');
-    return redirect('ambil_tes');
   }
 
   public function late($id)

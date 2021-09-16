@@ -39,22 +39,49 @@
                       <th style="width: 10px">No</th>
                       <th>Tipe Test</th>
                       <th style="width: 80px"><center>Tingkat</center></th>
-                      <th style="width: 100px"><center>Nilai</center></th>
+                      <th style="width: 100px"><center>Benar</center></th>
+                      <th style="width: 100px"><center>Salah</center></th>
+                      <th style="width: 100px"><center>Jumlah Soal</center></th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php $no=1; ?>
-                    @foreach ($hasil1 as $key)
+                    @foreach ($hsl as $key)
                       <tr>
                         <td><center>{{$no++}}</center></td>
                         <td>{{$key->tipe_test}}</td>
                         <td><center>{{$key->nama_tingkat}}</center></td>
                         <td><center>
-                          @foreach ($hasil as $keyhsl)
+                          @foreach ($benar as $keybenar)
+                              @if ($key->id_tipetest == $keybenar->id_tipetest)
+                                  {{$keybenar->jml_benar}}
+                                  @else
+                                    0
+                              @endif
+                          @endforeach
+                          {{-- @foreach ($hasil as $keyhsl)
                               @if ($keyhsl->id_tipetest == $key->id_tipetest)
-                                  {{$keyhsl->jml_bs * 100 / $key->jml_bs1}}
+                                  {{$keyhsl->jml_bs * 100 / $keysoal->jmlsoal}}
+
+                                  {{$keysoal->jmlsoal}}
                                 @else
 
+                              @endif
+                          @endforeach --}}
+                        </center></td>
+                        <td><center>
+                          @foreach ($salah as $keysalah)
+                              @if ($key->id_tipetest == $keysalah->id_tipetest)
+                                  {{$keysalah->jml_salah}}
+                                  @else
+                                    0
+                              @endif
+                          @endforeach
+                        </center></td>
+                        <td><center>
+                          @foreach ($soal as $keysoal)
+                              @if ($key->id_tipetest == $keysoal->id_tipetest)
+                                  {{$keysoal->jml_soal}}
                               @endif
                           @endforeach
                         </center></td>

@@ -151,7 +151,13 @@
             <li class="nav-item">
                 <a href="/jawaban" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>jawaban</p>
+                <p>Jawaban</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/jawab_gambar" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Jawaban Bergambar</p>
                 </a>
             </li>
         </ul>

@@ -1,5 +1,4 @@
 
-
   @if ((Auth::user()->role ==1))
     <div class="content-header">
         <div class="container-fluid">

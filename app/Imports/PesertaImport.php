@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use Carbon\Carbon;
 use App\Models\Peserta;
+use App\Models\User;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -45,5 +46,6 @@ class PesertaImport implements ToModel, WithHeadingRow
             'fee'               => $this->fee,
             'tgl_test'          => $this->tgl_test,
         ]);
+
     }
 }

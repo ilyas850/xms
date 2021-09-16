@@ -61,6 +61,10 @@
                               <input type="text" class="form-control" name="tipe_test" placeholder="Masukan Tipe Test" required>
                           </div>
                           <div class="form-group">
+                              <label>Keterangan</label>
+                              <textarea name="ket" rows="8" cols="80" class="form-control" placeholder="Masukan Keterangan"></textarea>
+                          </div>
+                          <div class="form-group">
                               <label>Pilih Tingkat</label>
                               <select class="form-control" name="id_tingkat" required>
                                   <option></option>
@@ -96,6 +100,7 @@
           <tr>
             <th><center>No</center></th>
             <th><center>Tipe Test</center></th>
+            <th><center>Keterangan</center></th>
             <th><center>Tingkat</center></th>
             <th><center>Setup Timer</center></th>
             <th><center>Durasi</center></th>
@@ -108,6 +113,7 @@
             <tr>
               <td><center>{{$no++}}</center></td>
               <td><center>{{$key->tipe_test}}</center></td>
+              <td>{{$key->ket}}</td>
               <td><center>{{$key->nama_tingkat}}</center></td>
               <td><center>{{$key->setup_timer}}</center></td>
               <td><center>{{$key->menit}}</center></td>
@@ -135,6 +141,10 @@
                           <div class="form-group">
                               <label>Tipe Test</label>
                               <input type="text" class="form-control" name="tipe_test" value="{{$key->tipe_test}}" required>
+                          </div>
+                          <div class="form-group">
+                              <label>Keterangan</label>
+                              <textarea name="ket" rows="8" cols="80" class="form-control" value="{{$key->ket}}"></textarea>
                           </div>
                           <div class="form-group">
                               <label>Pilih Tingkat</label>

@@ -93,7 +93,13 @@
                           </div>
                           <div class="form-group">
                               <label>Soal</label>
-                              <input type="text" class="form-control" name="soal" placeholder="Masukan Soal " required>
+                              <textarea class="form-control" name="soal" rows="2" cols="80" placeholder="Masukan Soal"></textarea>
+                              {{-- <input type="text" class="form-control" name="soal" placeholder="Masukan Soal " required> --}}
+                          </div>
+                          <div class="form-group">
+                              <label>Upload gambar</label>
+                              <input type="file" name="gambar">
+                              <p class="help-block">Format gambar .jpeg .jpg .png dengan maksimal size 1 mb (1024 kb)</p>
                           </div>
                       </div>
                       <div class="modal-footer">
@@ -113,7 +119,8 @@
             <th><center>Tingkat</center></th>
             <th><center>Nomor</center></th>
             <th><center>Soal</center></th>
-            <th></th>
+            <th>Aksi</th>
+            <th>Jawaban</th>
           </tr>
         </thead>
         <tbody>
@@ -130,7 +137,83 @@
                   <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modalUpdateGaya{{ $key->id_soal }}">Update</button>
                   <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalHapusGaya{{ $key->id_soal }}">Delete</button>
               </center></td>
+              <td><center>
+                @if ($key->ids == null)
+                  <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modalInputjwb{{ $key->id_soal }}">Input</button>
+                @elseif ($key->ids != null)
+                  Sudah
+                @endif
+              </center></td>
             </tr>
+
+            {{-- modal input jawaban--}}
+            <div class="modal fade" id="modalInputjwb{{ $key->id_soal }}" tabindex="-1" aria-labelledby="modalUpdateGaya" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title">Input Jawaban </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="{{url('savejwb')}}" method="post" enctype="multipart/form-data">
+                      {{ csrf_field() }}
+                      <input type="hidden" name="id_soal" value="{{$key->id_soal}}">
+                      <div class="form-group">
+                        <label>Nomor</label>
+                        <input type="number" class="form-control" value="{{$key->nomor}}" readonly>
+                      </div>
+                      <div class="form-group">
+                          <label>Soal</label>
+                          <textarea class="form-control" rows="2" cols="80" readonly>{{$key->soal}}</textarea>
+                      </div>
+                      <div class="form-group">
+                          <label>Soal gambar</label><br>
+                          @if ($key->gambar == null)
+
+                            @else
+                              <img width="150px" src="{{ asset('Soal_gambar/'.$key->gambar) }}">
+                              <br>
+                          @endif
+                          <br>
+                      </div>
+                      <div class="form-group">
+                          <input type="checkbox" name="b_s[]" value="A,B">
+                          <label for="">A</label>
+                          <input type="hidden" name="opsi[]" value="A">
+                          <input type="file" name="jawab_gambar[]">
+                          <br>
+                          <input type="checkbox" name="b_s[]" value="B,B">
+                          <label for="">B</label>
+                          <input type="hidden" name="opsi[]" value="B">
+                          <input type="file" name="jawab_gambar[]">
+                          <br>
+                          <input type="checkbox" name="b_s[]" value="C,B">
+                          <label for="">C</label>
+                          <input type="hidden" name="opsi[]" value="C">
+                          <input type="file" name="jawab_gambar[]">
+                          <br>
+                          <input type="checkbox" name="b_s[]" value="D,B">
+                          <label for="">D</label>
+                          <input type="hidden" name="opsi[]" value="D">
+                          <input type="file" name="jawab_gambar[]">
+                          <br>
+                          <input type="checkbox" name="b_s[]" value="E,B">
+                          <label for="">E</label>
+                          <input type="hidden" name="opsi[]" value="E">
+                          <input type="file" name="jawab_gambar[]">
+                          <br>
+                          <p class="help-block">Format gambar .jpeg .jpg .png dengan maksimal size 1 mb (1024 kb)</p>
+                      </div>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
 
             <!-- Modal Update soal-->
             <div class="modal fade" id="modalUpdateGaya{{ $key->id_soal }}" tabindex="-1" aria-labelledby="modalUpdateGaya" aria-hidden="true">
@@ -143,7 +226,7 @@
                       </button>
                   </div>
                   <div class="modal-body">
-                    <form action="/savesoal/{{ $key->id_soal }}" method="post">
+                    <form action="/savesoal/{{ $key->id_soal }}" method="post" enctype="multipart/form-data">
                       @csrf
                       @method('put')
                       <div class="form-group">
@@ -171,7 +254,21 @@
                       </div>
                       <div class="form-group">
                           <label>Soal</label>
-                          <input type="text" class="form-control" name="soal" value="{{$key->soal}}" required>
+                          <textarea class="form-control" name="soal" rows="2" cols="80" >{{$key->soal}}</textarea>
+                      </div>
+                      <div class="form-group">
+                          <label>Upload gambar</label><br>
+                          @if ($key->gambar == null)
+
+                            @else
+                              {{-- <img src="{{ Storage::url($key->gambar) }}" height="75" width="75" alt="" /> --}}
+                              <img width="150px" src="{{ asset('Soal_gambar/'.$key->gambar) }}">
+                              <br>
+                          @endif
+                          <br>
+
+                          <input type="file" name="gambar" class="form-control" >
+                          <p class="help-block">Format gambar .jpeg .jpg .png dengan maksimal size 1 mb (1024 kb)</p>
                       </div>
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                       <button type="submit" class="btn btn-primary">Save Changes</button>
