@@ -186,4 +186,6 @@ Route::middleware(['auth'])->group(function () {
         redirect('/home');
     });
 
+    //test
+
 });
