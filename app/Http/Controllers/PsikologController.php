@@ -79,6 +79,26 @@ class PsikologController extends Controller
         return view('psikolog/peserta/view_peserta_psi', ['data' => $psrt, 'psi' => $psi]);
     }
 
+    public function save_pestes_psi(Request $request)
+    {
+        $id = Auth::user()->username;
+        $ps = Psikolog::where('user_id', $id)->get();
+        foreach ($ps as $key) {
+            # code...
+        }
+        $jml_pes = count($request->id_peserta);
+        for ($i = 0; $i < $jml_pes; $i++) {
+            $pes = $request->id_peserta[$i];
+
+            $test                 = new Trans_peserta_test;
+            $test->idpeserta      = $pes;
+            $test->id_psikolog    = $key->id_psikolog;
+            $test->created_by       = Auth::user()->name;
+            $test->save();
+        }
+        return redirect('peserta_test_psi');
+    }
+
     public function entryaspek($id)
     {
 

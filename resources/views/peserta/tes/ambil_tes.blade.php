@@ -59,7 +59,7 @@
                      </thead>
                      <tbody>
                        <?php $no=1; ?>
-                       @foreach ($list as $key)
+                       @foreach ($datates as $key)
                          <tr>
                            <td><center>{{$no++}}</center></td>
                            <td>{{$key->tipe_test}}</td>
@@ -73,7 +73,40 @@
                                @endif
                            </center></td>
                            <td><center>
-                             @if ($key->status == 'Selesai')
+                             {{-- @if ($key->id_peserta == $idsp)
+                               <span class="badge bg-success">Sudah</span>
+                             @elseif ($key->id_peserta == null)
+                               @if ($key->status == 'Onprogress')
+                                 <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-success btn-xs">mulai tes</a>
+                               @elseif ($key->status == 'Gagal')
+                                 <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-warning btn-xs">ulangi tes</a>
+                               @elseif ($key->status==null)
+                                 <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-success btn-xs">mulai tes</a>
+                               @endif
+                             @endif --}}
+                             <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-success btn-xs">mulai tes</a>
+                             {{-- @if ($cekl > 0)
+                               @foreach ($list as $keyls)
+                                 @if ($key->id_tipetest == $keyls->id_tipetest && $keyls->status=='Selesai')
+                                   <span class="badge bg-success">Sudah</span>
+                                 @elseif ($key->id_tipetest == $keyls->id_tipetest && $keyls->status=='Onprogress')
+                                   <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-success btn-xs">mulai tes</a>
+                                 @elseif ($key->id_tipetest == $keyls->id_tipetest && $keyls->status==null)
+                                   <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-success btn-xs">mulai tes</a>
+                                 @elseif ($key->id_tipetest == $keyls->id_tipetest && $keyls->status=='Gagal')
+                                   <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-success btn-xs">ulangi tes</a>
+                                 @endif
+                               @endforeach
+                             @else
+                               <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-success btn-xs">mulai tes</a>
+                             @endif --}}
+
+                             {{-- @if ($key->id_peserta == null or $key->id_peserta != $idsp)
+                               <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-success btn-xs">mulai tes</a>
+                             @elseif ($key->id_peserta == $idsp)
+                               sudah
+                             @endif --}}
+                             {{-- @if ($key->status == 'Selesai')
                                <span class="badge bg-success">Sudah</span>
                              @elseif ($key->status == 'Onprogress')
                                <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-success btn-xs">mulai tes</a>
@@ -81,10 +114,24 @@
                                <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-warning btn-xs">ulangi tes</a>
                              @elseif ($key->status==null)
                                <a href="mulai_tes/{{$key->id_tipetest}}" class="btn btn-success btn-xs">mulai tes</a>
-                             @endif
+                             @endif --}}
                            </center></td>
                            <td><center>
-                             @if ($key->status==null)
+                             @if ($cekl > 0)
+                               @foreach ($list as $keyls)
+                                 @if ($key->id_tipetest == $keyls->id_tipetest && $keyls->status=='Selesai')
+                                   <span class="badge bg-primary"> {{$keyls->status}}</span>
+                                 @elseif ($key->id_tipetest == $keyls->id_tipetest && $keyls->status=='Onprogress')
+                                   <span class="badge bg-primary"> {{$keyls->status}}</span>
+                                 @elseif ($key->id_tipetest == $keyls->id_tipetest && $keyls->status=='Gagal')
+                                   <span class="badge bg-primary"> {{$keyls->status}}</span>
+                                 @endif
+                               @endforeach
+                             @elseif ($cekl == 0)
+                               <span class="badge bg-warning">Belum tes</span>
+                             @endif
+
+                             {{-- @if ($key->status==null)
                                <span class="badge bg-warning">Belum tes</span>
                              @elseif ($key->status=='Onprogress')
                                <span class="badge bg-primary"> {{$key->status}}</span>
@@ -92,9 +139,7 @@
                                <span class="badge bg-success"> {{$key->status}}</span>
                              @elseif ($key->status=='Gagal')
                                <span class="badge bg-danger"> {{$key->status}}</span>
-                             @endif
-
-
+                             @endif --}}
                            </center></td>
                          </tr>
                        @endforeach

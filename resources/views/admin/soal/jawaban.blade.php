@@ -38,7 +38,7 @@
         <h3 class="card-title">Data Jawaban</h3>
     </div>
     <div class="card-body">
-      <form class="form" role="form" action="{{url('pilih_master')}}" method="POST">
+      <form class="form" role="form" action="{{url('pilih_master')}}" method="POST" >
           {{ csrf_field() }}
           <div class="row">
               <div class="col-3">
@@ -136,7 +136,7 @@
                         </div>
                         <div class="modal-body">
                         <!--FORM UPDATE Gaya Belajar-->
-                        <form action="/savejawaban/{{ $key->id_jawaban }}" method="post">
+                        <form action="/savejawaban/{{ $key->id_jawaban }}" method="post" enctype="multipart/form-data">
                             @csrf
                             @method('put')
                             <div class="form-group">
@@ -150,6 +150,20 @@
                             <div class="form-group">
                                 <label>Jawaban</label>
                                 <input type="text" class="form-control" name="jawaban" value="{{$key->jawaban}}">
+                            </div>
+                            <div class="form-group">
+                                <label>Upload gambar</label><br>
+
+                                @if ($key->jawab_gambar == null)
+
+                                  @else
+                                    <img src="Jawaban_gambar/{{ $key->jawab_gambar }}" height="85" width="85" alt="" />
+                                    <br>
+                                @endif
+                                <br>
+
+                                <input type="file" name="jawab_gambar" class="form-control" >
+                                <p class="help-block">Format gambar .jpeg .jpg .png dengan maksimal size 1 mb (1024 kb)</p>
                             </div>
                             <div class="form-group">
                               <label>Benar/Salah</label>

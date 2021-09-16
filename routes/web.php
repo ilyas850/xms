@@ -5,17 +5,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PsikologController;
 use App\Http\Controllers\PesertaController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -131,12 +120,20 @@ Route::middleware(['auth'])->group(function () {
         Route::put('savesoal/{id}', [AdminController::class, 'updatesoal']);
         Route::post('hapussoal', [AdminController::class, 'destroysoal']);
 
+        //input jawaban
+        Route::post('savejwb', [AdminController::class, 'savejwb']);
+
         Route::get('jawaban', [AdminController::class, 'jawaban']);
         Route::post('pilih_master', [AdminController::class, 'pilih_master']);
         Route::post('post_jawaban', [AdminController::class, 'post_jawaban']);
         Route::put('savejawaban/{id}', [AdminController::class, 'updatejawaban']);
         Route::post('hapusjawaban', [AdminController::class, 'destroyjawaban']);
         Route::post('save_jawaban', [AdminController::class, 'save_jawaban']);
+
+        //jawaban bergambar
+        Route::get('jawab_gambar', [AdminController::class, 'jawaban_gambar']);
+        Route::post('pilih_master_gambar', [AdminController::class, 'pilih_master_gambar']);
+        Route::post('save_jawaban_gambar', [AdminController::class, 'save_jawaban_gambar']);
 
         //tentukan test peserta
         Route::get('select_test', [AdminController::class, 'select_test']);

@@ -34,6 +34,10 @@
   <link rel="stylesheet" href="{{asset('assets/plugins/bs-stepper/css/bs-stepper.min.css')}}">
   <!-- dropzonejs -->
   <link rel="stylesheet" href="{{asset('assets/plugins/dropzone/min/dropzone.min.css')}}">
+
+  <script src='{{asset('js/jquery-3.1.1.min.js')}}' type='text/javascript'></script>
+
+  <script type="text/javascript" src="{{asset('js/jquery-3.6.0.js')}}"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -52,7 +56,9 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="/home" class="nav-link">Home</a>
+
       </li>
+      
 
       @yield('navbar')
 

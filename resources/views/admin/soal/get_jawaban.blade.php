@@ -47,15 +47,14 @@
 
               <table width="100%">
                 <tr>
-                  <td colspan="3"><label for="">{{$no++}}. {{$key->soal}}</label></td>
-
+                  <td colspan="4"><label for="">{{$no++}}. {{$key->soal}}</label></td>
                 </tr>
                 <tr>
                   <td  width="5%"> <input type="checkbox" name="b_s[]" value="{{$key->id_soal}},A,B"> </td>
                   <td  width="5%"><label>A</label></td>
                   <input type="hidden" name="opsi[]" value="{{$key->id_soal}},A">
                   <td  width="80%">
-                    <input type="text"  name="jawaban[]" placeholder="Masukan jawaban" required>
+                    <input type="text"  name="jawaban[]" placeholder="Masukan jawaban">
                   </td>
                 </tr>
                 <tr>
@@ -63,7 +62,7 @@
                   <td  width="5%"><label>B</label></td>
                   <input type="hidden" name="opsi[]" value="{{$key->id_soal}},B">
                   <td  width="80%">
-                    <input type="text"  name="jawaban[]" placeholder="Masukan jawaban" required>
+                    <input type="text"  name="jawaban[]" placeholder="Masukan jawaban">
                   </td>
                 </tr>
                 <tr>
@@ -71,7 +70,7 @@
                   <td  width="5%"><label>C</label></td>
                   <input type="hidden" name="opsi[]" value="{{$key->id_soal}},C">
                   <td  width="80%">
-                    <input type="text"  name="jawaban[]" placeholder="Masukan jawaban" required>
+                    <input type="text"  name="jawaban[]" placeholder="Masukan jawaban">
                   </td>
                 </tr>
                 <tr>
@@ -79,7 +78,15 @@
                   <td  width="5%"><label>D</label></td>
                   <input type="hidden" name="opsi[]" value="{{$key->id_soal}},D">
                   <td  width="80%">
-                    <input type="text"  name="jawaban[]" placeholder="Masukan jawaban" required>
+                    <input type="text"  name="jawaban[]" placeholder="Masukan jawaban">
+                  </td>
+                </tr>
+                <tr>
+                  <td  width="5%"> <input type="checkbox" name="b_s[]" value="{{$key->id_soal}},E,B"> </td>
+                  <td  width="5%"><label>E</label></td>
+                  <input type="hidden" name="opsi[]" value="{{$key->id_soal}},E">
+                  <td  width="80%">
+                    <input type="text"  name="jawaban[]" placeholder="Masukan jawaban">
                   </td>
                 </tr>
               </table>

@@ -1,5 +1,5 @@
 @extends('layouts.master')
- 
+
 @section('navbar')
 
   @include('layouts.navbar')
@@ -23,53 +23,53 @@
     {{-- notifikasi form validasi --}}
         @if ($errors->has('Nama'))
             <div class="alert alert-danger alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button> 
+                <button type="button" class="close" data-dismiss="alert">×</button>
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->first('nama_psikolog') }}</strong>
                 </span>
             </div>
         @endif
-        
+
         @if ($errors->has('nohp'))
             <div class="alert alert-danger alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button> 
+                <button type="button" class="close" data-dismiss="alert">×</button>
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->first('nohp_psikolog') }}</strong>
                 </span>
             </div>
         @endif
-        
+
         @if ($errors->has('email'))
             <div class="alert alert-danger alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button> 
+                <button type="button" class="close" data-dismiss="alert">×</button>
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->first('email_psikolog') }}</strong>
                 </span>
             </div>
         @endif
-        
+
         @if ($errors->has('noktp'))
             <div class="alert alert-danger alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button> 
+                <button type="button" class="close" data-dismiss="alert">×</button>
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->first('noktp_psikolog') }}</strong>
                 </span>
             </div>
         @endif
-        
+
         @if ($errors->has('alamat'))
             <div class="alert alert-danger alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button> 
+                <button type="button" class="close" data-dismiss="alert">×</button>
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->first('alamat_psikolog') }}</strong>
                 </span>
             </div>
         @endif
-            
+
 		{{-- notifikasi sukses --}}
 		@if ($sukses = Session::get('sukses'))
             <div class="alert alert-success alert-block">
-                <button type="button" class="close" data-dismiss="alert">×</button> 
+                <button type="button" class="close" data-dismiss="alert">×</button>
                 <strong>{{ $sukses }}</strong>
             </div>
         @endif
@@ -77,8 +77,8 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Data Psikolog</h3>
-        </div> 
-        
+        </div>
+
         <div class="card-body">
             <div class="row">
                 <div class="col-xs-2">
@@ -97,39 +97,39 @@
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Add Psikolog</h5>
                             </div>
-                            <div class="modal-body">   
+                            <div class="modal-body">
                                 <div class="form-group">
                                     <label>Nama</label>
                                     <input type="text" class="form-control" name="nama_psikolog" placeholder="Masukan Nama">
-                                </div>  
+                                </div>
                                <div class="form-group">
                                     <label>No. HP</label>
                                     <input type="number" class="form-control" name="nohp_psikolog" placeholder="Masukan No. HP">
-                                </div>  
+                                </div>
                                 <div class="form-group">
                                     <label>E-mail</label>
                                     <input type="email" class="form-control" name="email_psikolog" placeholder="Masukan E-mail">
-                                </div> 
+                                </div>
                                 <div class="form-group">
                                     <label>Alamat</label>
                                     <textarea type="text" class="form-control" name="alamat_psikolog" placeholder="Masukan Alamat"></textarea>
-                                </div>  
+                                </div>
                                 <div class="form-group">
                                     <label>No. KTP</label>
                                     <input type="number" class="form-control" name="noktp_psikolog" placeholder="Masukan No. KTP">
-                                </div>  
+                                </div>
                                 <div class="form-group">
                                     <label>No. NPWP</label>
                                     <input type="number" class="form-control" name="npwp_psikolog" placeholder="Masukan No. NPWP">
-                                </div>  
+                                </div>
                                 <div class="form-group">
                                     <label>Nama Bank</label>
                                     <input type="text" class="form-control" name="bank" placeholder="Masukan Nama Bank">
-                                </div> 
+                                </div>
                                 <div class="form-group">
                                     <label>No. Rekening</label>
                                     <input type="number" class="form-control" name="norek" placeholder="Masukan No. Rekening">
-                                </div> 
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -169,7 +169,7 @@
                         <td><center>{{$item->norek}}</center></td>
                         <td><center>
                             <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modalUpdatePsikolog{{ $item->id_psikolog }}">Update</button>
-                            <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalHapusPsikolog{{ $item->id_psikolog }}">Delete</button>    
+                            <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalHapusPsikolog{{ $item->id_psikolog }}">Delete</button>
                         </center></td>
                     </tr>
 
@@ -209,35 +209,35 @@
                                         <div class="form-group">
                                             <label>Nama</label>
                                             <input type="text" class="form-control" name="nama_psikolog" value="{{$item->nama_psikolog}}">
-                                        </div>  
+                                        </div>
                                         <div class="form-group">
                                             <label>No. HP</label>
                                             <input type="number" class="form-control" name="nohp_psikolog" value="{{$item->nohp_psikolog}}">
-                                        </div>  
+                                        </div>
                                         <div class="form-group">
                                             <label>E-mail</label>
                                             <input type="email" class="form-control" name="email_psikolog" value="{{$item->email_psikolog}}">
-                                        </div> 
+                                        </div>
                                         <div class="form-group">
                                             <label>Alamat</label>
                                             <textarea type="text" class="form-control" name="alamat_psikolog">{{$item->alamat_psikolog}}</textarea>
-                                        </div>  
+                                        </div>
                                         <div class="form-group">
                                             <label>No. KTP</label>
                                             <input type="number" class="form-control" name="noktp_psikolog" value="{{$item->noktp_psikolog}}">
-                                        </div>  
+                                        </div>
                                         <div class="form-group">
                                             <label>No. NPWP</label>
                                             <input type="number" class="form-control" name="npwp_psikolog" value="{{$item->npwp_psikolog}}">
-                                        </div>  
+                                        </div>
                                         <div class="form-group">
                                             <label>Nama Bank</label>
                                             <input type="text" class="form-control" name="bank" value="{{$item->bank}}">
-                                        </div>  
+                                        </div>
                                         <div class="form-group">
                                             <label>No. Rekening</label>
                                             <input type="number" class="form-control" name="norek" value="{{$item->norek}}">
-                                        </div>  
+                                        </div>
                                     <button type="submit" class="btn btn-primary">Perbarui Data</button>
                                     </form>
                                     <!--END FORM UPDATE Psikolog-->
