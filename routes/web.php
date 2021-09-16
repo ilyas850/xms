@@ -181,6 +181,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('pwd_psrt/{id}', [PsikologController::class, 'store_new_pass']);
     });
 
+    //back to 
     Route::get('/logout', function() {
         Auth::logout();
         redirect('/home');
